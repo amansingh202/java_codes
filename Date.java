@@ -57,7 +57,7 @@ public class Date {
   *  otherwise, sets day to 1
   */
   private void setDay( int dd )   {
-    int [] validDays = { 0,  31, 28, 31, 30,
+    int [] validDays = { 0,  31, 29, 31, 30,
                          31, 30, 31, 31, 30,
                          31, 30, 31 };
 	if (dd >= 1 && dd <= validDays[month] ) {
@@ -87,7 +87,7 @@ public class Date {
   private void setYear( int yyyy ) {
     year = yyyy;
   }
-	
+  
   /** toString
   *  @return String
   *  returns date in mm/dd/yyyy format
