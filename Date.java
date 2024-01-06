@@ -1,98 +1,106 @@
 public class Date {
-  private int day;
   private int month;
+  private int day;
   private int year;
-  private static final int DEFAULT_YEAR=2000,  DEFAULT_MONTH=1,  DEFAULT_DAY=1;
+  
+  private static final int [] validDays = {0,31,28,31,30,31,30,31,31,30,31,30,31};  
+  private static final int DEFAULT_DAY=1, DEFAULT_MONTH=1, DEFAULT_YEAR=2000;
 
-  /** default constructor
-  *  sets month to 1, day to 1 and year to 2000 (the defaults)
-  */
-  public Date( )   {
-    setDate( DEFAULT_MONTH, DEFAULT_DAY, DEFAULT_YEAR);
+  public Date( )  {
+	  month=DEFAULT_MONTH;
+	  day=DEFAULT_DAY;
+	  year=DEFAULT_YEAR;
   }
 
-  /** overloaded constructor
-  *  @param mm    initial value for month
-  *  @param dd    initial value for day
-  *  @param yyyy  initial value for year
-  *
-  *  passes parameters to setDate method
-  */
-  public Date( int mm, int dd, int yyyy )   {
+  public Date( int mm, int dd, int yyyy ) {
     setDate( mm, dd, yyyy );
   }
 
-  /** accessor method
-  *  returns the month
-  */
-  public int getMonth( ) { return month; }
+  int getMonth( ) { return month; }
+  int getDay( )   { return day; }
+  int getYear( )  { return year; }
 
-  /** accessor method
-  *  returns the day
-  */
-  public int getDay( )   { return day; }
-  
-  /** accessor method
-  *  returns the year
-  */
-  public int getYear( )  { return year; }
+  private void setMonth( int mm ) {
+    month = ( mm >= 1 && mm <= 12 ? mm : DEFAULT_MONTH );
+  }
 
-  /** mutator method */
-  /** setDate
-  *  @param mm    new value for month
-  *  @param dd    new value for day
-  *  @param yyyy  new value for year
-  *  passes parameters to setMonth, setDay, and setYear for validation and setting
-  */
-  public void setDate( int mm, int dd, int yyyy )   {
+  private void setDay( int dd ) {
+  	int maxDays=validDays[month];
+	  if (leapYear() && month==2) {
+		  maxDays=29;
+	  }
+    day = ( dd >= 1 && dd <= maxDays ? dd : DEFAULT_DAY );
+  }
+
+  private void setYear( int yyyy ) {
+    year = yyyy;
+  }
+
+  public void setDate( int mm, int dd, int yyyy ) {
     setYear(yyyy);
     setMonth( mm );
     setDay( dd );
   }
-  
-  /** helper methods */  
-  /** setDay (private)
-  *  @param dd new value for day
-  *  if dd is legal day for current month, sets day to dd
-  *  otherwise, sets day to 1
-  */
-  private void setDay( int dd )   {
-    int [] validDays = { 0,  31, 29, 31, 30,
-                         31, 30, 31, 31, 30,
-                         31, 30, 31 };
-	if (dd >= 1 && dd <= validDays[month] ) {
-	  day = dd;
-	}
-	else {
-	  day = DEFAULT_DAY;
-	}
-  } 
-  /** setMonth (private)
-  *  @param mm new value for month
-  *  if mm is between 1 and 12, sets month to mm
-  *  otherwise, sets month to 1
-  */
-  private void setMonth( int mm ) {
-	if (mm >= 1 && mm <= 12) {
-	  month = mm;
-	}
-	else {
-	  month = DEFAULT_MONTH;
-	}
-  }
-  /** setYear (private)
-  *  @param yyyy new value for year
-  *  sets year to yyyy
-  */
-  private void setYear( int yyyy ) {
-    year = yyyy;
-  }
-  
-  /** toString
-  *  @return String
-  *  returns date in mm/dd/yyyy format
-  */
+
   public String toString( ) {
     return month + "/" + day + "/" + year;
+  }
+
+  public boolean equals( Date d ) {
+    return ( month == d.month && day == d.day  && year == d.year );
+  }
+
+  public boolean leapYear() {
+    return ((year%4==0) && ((year%100!=0)||(year%400==0))); 
+  }
+  
+  public int compareTo(Date that) {    // improvement would to return the number of days between, like String returns the difference in ASCII values
+	  if (this.year<that.year) {
+	    return -1;
+	  }
+  	else {
+  	  if (this.year>that.year) {
+  	     return 1;
+  	  }
+      else {
+        if (this.month<that.month) {
+          return -1;
+        }
+    		else {
+    		  if (this.month>that.month) {
+    		    return 1;
+    		  }
+      		else {
+		        if (this.day<that.day) {
+		          return -1;
+		        }
+      			else {
+      			  if (this.day>that.day) {
+      			    return 1;
+      			  }
+        			else {
+        			  return 0;
+        			}
+      			}
+      		}
+    		}
+      }
+		}
+  }
+  public void incrementMonth() {
+	  if (month==12) {
+		  setMonth(1);
+		  setYear(year+1);
+    }
+    else {
+      setMonth(month+1);
+    }
+    int maxDays = validDays[month];    
+	  if (leapYear() && month==2) {
+	    maxDays=29;
+	  }
+	  if (day>maxDays) {
+	    setDay(maxDays);
+	  }
   }
 }
