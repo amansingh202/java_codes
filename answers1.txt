@@ -1,0 +1,6 @@
+KEY,e,e,b,b,e,b,c,d,a,e
+Matt,a,e,b,b,?,b,c,d,a,e
+Cami,e,e,b,b,?,b,c,d,a,e
+John,?,?,?,?,?,?,c,d,a,e
+Mary,a,a,a,a,a,a,c,d,a,e
+Fred,e,e,b,b,?,b,c,d,a,e
